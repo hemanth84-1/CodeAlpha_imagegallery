@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>codeAlpha_imagegallery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>IMAGE GALLERY</h1>
+  </header>
+
+  <!-- Lightbox View -->
+  <div class="full-img" id="fullImgBox">
+    <span class="close" onclick="closeFullImg()">×</span>
+    <img id="fullImg" src="images/img1.jpg" alt="Full Image" />
+    <div class="nav-btns">
+      <button onclick="changeImage(-1)">&#10094;</button>
+      <button onclick="changeImage(1)">&#10095;</button>
+    </div>
+  </div>
+
+  <!-- Gallery -->
+  <div class="img-gallery" id="gallery">
+    <img src="images/img1.jpg" alt="Image 1">
+    <img src="images/img2.jpg" alt="Image 2">
+    <img src="images/img3.jpg" alt="Image 3">
+    <img src="images/img4.jpg" alt="Image 4">
+    <img src="images/img5.jpg" alt="Image 5">
+    <img src="images/img6.jpg" alt="Image 6">
+    <img src="images/img7.jpg" alt="Image 7">
+    <img src="images/img8.jpg" alt="Image 8">
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const fullImgBox = document.getElementById("fullImgBox");
+    const fullImg = document.getElementById("fullImg");
+    const galleryImages = document.querySelectorAll(".img-gallery img");
+
+    let currentIndex = 0;
+
+    // Open image in lightbox
+    function openFullImg(index) {
+      currentIndex = index;
+      fullImg.src = galleryImages[currentIndex].src;
+      fullImgBox.style.display = "flex";
+    }
+
+    // Close lightbox
+    function closeFullImg() {
+      fullImgBox.style.display = "none";
+    }
+
+    // Next/Prev image
+    function changeImage(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = galleryImages.length - 1;
+      if (currentIndex >= galleryImages.length) currentIndex = 0;
+      fullImg.src = galleryImages[currentIndex].src;
+    }
+
+    // Add click listeners to each gallery image
+    galleryImages.forEach((img, index) => {
+      img.addEventListener("click", () => openFullImg(index));
+    });
+
+    // Optional: Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (fullImgBox.style.display === "flex") {
+        if (e.key === "ArrowRight") changeImage(1);
+        if (e.key === "ArrowLeft") changeImage(-1);
+        if (e.key === "Escape") closeFullImg();
+      }
+    });
+  </script>
+</body>
+</html>
